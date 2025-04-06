@@ -38,9 +38,12 @@ $body .= "Message:\n$message\n";
 
 // Send email
 if (mail($to, $subject, $body, $headers)) {
-    echo json_encode(["status" => "success", "message" => "Email sent via EmailJS."]);
+    $response = ["status" => "success", "message" => "Email sent via EmailJS."];
+    echo json_encode($response);
+    exit;
 } else {
     http_response_code(500);
     echo json_encode(["status" => "error", "message" => "Something went wrong. Email could not be sent."]);
+    exit;
 }
 ?>
