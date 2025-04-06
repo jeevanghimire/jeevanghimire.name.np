@@ -3,6 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    http_response_code(405);
+    echo "Method Not Allowed. Please use POST.";
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form input
     $name = htmlspecialchars(trim($_POST["name"]));
@@ -39,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Send the email
     if (mail($to, $email_subject, $email_body, $headers)) {
         http_response_code(200);
-echo "OK"; // Success response
+        echo "OK"; // Success response
     } else {
         http_response_code(500);
         echo "Oops! Something went wrong, and we couldn't send your message.";
